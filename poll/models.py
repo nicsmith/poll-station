@@ -4,6 +4,8 @@ import click
 from flask.cli import with_appcontext
 from peewee import Model, MySQLDatabase, AutoField, CharField, DateTimeField, ForeignKeyField
 
+DATABASE_NAME = os.environ.get('DB_DATABASE', 'poll')
+
 def get_db():
     return {
         "user": os.environ.get('DB_USER', 'root'),
@@ -14,7 +16,7 @@ def get_db():
 
 class BaseModel(Model):
     class Meta:
-        database = MySQLDatabase('poll', **get_db())
+        database = MySQLDatabase(DATABASE_NAME, **get_db())
 
 class Poll(BaseModel):
     id = AutoField(primary_key=True)
@@ -47,7 +49,7 @@ class VoteCast(BaseModel):
 @click.command("init-db")
 @with_appcontext
 def init_db_command():
-    database = MySQLDatabase('poll', **get_db())
+    database = MySQLDatabase(DATABASE_NAME, **get_db())
     database.create_tables([Poll, Choice, VoteCast])
     click.echo("Initialized the database.")
 
