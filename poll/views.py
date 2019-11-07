@@ -4,7 +4,7 @@ def index(polls):
     view = """
 <html>
     <body>
-        <h1>Sondages</h1>
+        <h1>Sondages encore mieux</h1>
         <table>
             <thead>
                 <tr>
